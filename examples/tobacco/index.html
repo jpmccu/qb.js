@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+<head>
+<title></title>
+
+<link href="https://raw.github.com/jimmccusker/qb.js/master/css/cupertino/jquery-ui-1.8.21.custom.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+body, th, td{font:80% Verdana,Arial,sans-serif}
+.ui-accordion-icons .ui-accordion-header a { padding-left: 2.2em; }
+
+</style>
+<link href="https://raw.github.com/jimmccusker/qb.js/master/css/default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://d3js.org/d3.v2.js"></script>
+<script type="text/javascript" src="https://raw.github.com/jimmccusker/qb.js/master/js/d3.chart.js"></script>
+<script type="text/javascript" src="https://raw.github.com/jimmccusker/qb.js/master/js/Math.uuid.js"></script>
+<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
+
+<script type="text/javascript" src="vie-ALL-latest.debug.js"></script>
+<script type="text/javascript" src="data.js"></script>
+</head>
+
+<body>
+<button style="float: right" onclick="save">Save a Copy</button>
+<h1>RDF Data Cube Browser</h1>
+
+Select one or more measures for the X and Y axes. Some examples of
+good dependent measures (on the X axis) are under the categories of Tobacco
+Price/Tax/Funding, Smoke-Free Air Laws, and Smoke-Free Air
+Preemption. The rest of the categories contain dependent (Y axis)
+measures. Any measure can be used on the X or Y axis. 
+
+<div typeof="http://semanticscience.org/resource/statistical-graph"
+     about="#dce" id="dce">
+  <span class="config">
+    <a rel="http://www.w3.org/ns/prov#wasDerivedFrom"
+       href="http://logd.tw.rpi.edu/source/impacteen-org/dataset/tobacco-control-policy-and-prevalence/version/2012-Jan-16"></a>
+    <span typeof="http://rdfs.org/ns/void#Dataset"
+          about="http://logd.tw.rpi.edu/source/impacteen-org/dataset/tobacco-control-policy-and-prevalence/version/2012-Jan-16">
+      <a rel="http://rdfs.org/ns/void#sparqlEndpoint"
+         href="http://logd.tw.rpi.edu/sparql.php"></a>
+    </span>
+  </span>
+</div>
+
+<div id="selector"></div>
+
+</body>
+</html>
