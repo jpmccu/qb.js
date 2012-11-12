@@ -964,23 +964,30 @@ DataCubeExplorer.prototype.makeScatterPlotMatrix = function() {
 		//console.log(d[p.x.represents[0].uri][0]);
 		//console.log(i);
                 d[p.y.represents[0].uri].forEach(function(t) {
+                    //if (t.label[0] == "love") return;
 		    if (!dates[t.uri]) {
 			dates[t.uri] = d3.range(0,9).map(function(d) {
 			    return { x: xScale.invert(d), y: 0, y0: 0};
 			});
 			//console.log(dates[t.uri]);
 		    }
+                    //var val = dates[t.uri][i].y * dates[t.uri][i].y;
+		    //dates[t.uri][i].y = Math.sqrt(val+1);
 		    dates[t.uri][i].y += 1;
 		});
 	    });
-	    console.log(dates);
+            console.log(dates);
 	    var categories = d3.keys(dates);
+            categories = categories.filter(function(category) {
+                return d3.max(dates[category].map(function(d) {return d.y})) > 50;
+            });
 	    var unstackedData = categories.map(function(d) {return dates[d];});
             console.log(unstackedData)
 	    var stackedData = d3.layout.stack().offset("wiggle")(unstackedData);
 	    console.log(stackedData);
-            var color = d3.interpolateRgb("#aae", "#556");
-	            var width = size-padding,
+            var color = d3.scale.category20();
+            //var color = d3.interpolateRgb("#aae", "#556");
+	    var width = size-padding,
             height = size-padding,
             m = 9;
             mx = m - 1,
@@ -1003,7 +1010,8 @@ DataCubeExplorer.prototype.makeScatterPlotMatrix = function() {
 		.tension(0.8);
 	    cell.selectAll("path").data(stackedData).enter().append("path")
 		.style("fill", function(d,i) { 
-                    return d3.rgb(color(Math.random()));//types[i].uri));
+                    return d3.rgb(color(i));
+                        //Math.random()));//types[i].uri));
 		})
 		.attr("d", area)
 
@@ -1024,7 +1032,12 @@ DataCubeExplorer.prototype.makeScatterPlotMatrix = function() {
 		.attr("x",width+padding)
 		.attr("y",function(d,i){
 		    var yPos =  d[d.length-1].y/2 + d[d.length-1].y0;
-		    return padding/2 + height - yPos * height / my;
+                    var offset = false;
+                    //if (i > 0) {
+		    //    var yMinusOnePos =  stackedData[i-1][stackedData[i-1].length-1].y/2 + stackedData[i-1][stackedData[i-1].length-1].y0;
+                    //    offset = yMinusOnePos - yPos < 10;
+                    //}
+		    return padding/2 + height - yPos * height / my - (offset ? i*10 : 0);
 		})
 		.attr("text-anchor", "beginning")
 		.style('dominant-baseline',"middle")
