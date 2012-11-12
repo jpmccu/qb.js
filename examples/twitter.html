@@ -15,8 +15,8 @@ body, th, td{font:80% Verdana,Arial,sans-serif}
 <script type="text/javascript" src="https://raw.github.com/jimmccusker/qb.js/master/js/Math.uuid.js"></script>
 <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
-<script type="text/javascript" src="https://raw.github.com/jimmccusker/qb.js/master/js/rdfa.js"></script>
-<script type="text/javascript" src="https://raw.github.com/jimmccusker/qb.js/master/js/qb.js"></script>
+<script type="text/javascript" src="../js/rdfa.js"></script>
+<script type="text/javascript" src="../js/qb.js"></script>
 </head>
 
 <body>
@@ -51,17 +51,18 @@ changes in word use over the observed time period.</p>
       </span>
     </span>
     <a rel="http://www.w3.org/ns/prov#wasDerivedFrom"
-       href="http://purl.org/twc/skitter"></a>
+       href="http://purl.org/twc/skitter/emotion"></a>
     <span typeof="http://rdfs.org/ns/void#Dataset"
-          about="http://purl.org/twc/skitter">
+          about="http://purl.org/twc/skitter/emotion">
       <a rel="http://rdfs.org/ns/void#sparqlEndpoint"
-         href="http://doppio.med.yale.edu:3030/datacube/sparql"></a>
+         href="http://doppio.med.yale.edu:3030/db/sparql"></a>
     </span>
     <span typeof="http://logd.tw.rpi.edu/source/data-gov/datacube/Category"
           about="#dce_category">
-      <span property="http://www.w3.org/2000/01/rdf-schema#label">Twitter Flu</span>
+      <span
+     property="http://www.w3.org/2000/01/rdf-schema#label">Twitter Health</span>
       <a rel="http://purl.org/dc/terms/partOf"
-         href="http://purl.org/twc/skitter"></a>
+         href="http://purl.org/twc/skitter/emotion"></a>
       <span rel="http://purl.org/dc/terms/hasPart">
         <span resource="http://purl.org/dc/terms/date"></span>
         <span resource="http://purl.org/dc/terms/subject"></span>

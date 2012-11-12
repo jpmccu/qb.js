@@ -160,13 +160,14 @@ Graph.prototype.add = function(data) {
 Graph.prototype.sparqlConstruct = function(query,endpoint, callback) {
     var encodedQuery = encodeURIComponent(query);
     var url = endpoint+"?query="+encodedQuery+"&output=json";
-    //console.log(url);
+    console.log(query);
     d3.json(url, callback);
 }
 
 Graph.prototype.sparqlSelect = function(query, endpoint, callback) {
     var encodedQuery = encodeURIComponent(query);
     var url = endpoint+"?query="+encodedQuery+"&output=json";
+    console.log(query)
     d3.json(url, callback);
 }
 
@@ -413,18 +414,22 @@ construct { \
     } \
   } \
 }';
-
+    var done = {};
     var dce = this;
     measures.forEach(function(measure) {
-	if (measure.data) callback();
+        done[measure.uri] = 1;
+	if (measure.data && d3.keys(done).length == measures.length) callback();
 	console.log(measure);
         var endpoint = measure.partOf[0].partOf[0][VOID+"sparqlEndpoint"][0].uri;
 	var dataset = measure.partOf[0].partOf[0].uri;
 
         dce.graph.sparqlSelect(sparqlQuery.format(measure.uri, dataset),endpoint,function(json) {
+            console.log(json);
 	    dce.graph.add(json);
-	    measure.data = true;
-            callback();
+            console.log(d3.keys(done), measures);
+            measure.data = true;
+	    if (d3.keys(done).length == measures.length) 
+                callback();
         });
     });
 }
@@ -937,7 +942,7 @@ DataCubeExplorer.prototype.makeScatterPlotMatrix = function() {
 	    var timestamps = measureVals[p.x.represents[0].uri];//.map(function(d) {
 //		return new Date(d);
 //	    });
-	    console.log(timestamps);
+	    console.log(measureVals);
 	    var minTime = d3.min(timestamps),
                 maxTime = d3.max(timestamps);
 	    console.log(minTime);
@@ -953,15 +958,17 @@ DataCubeExplorer.prototype.makeScatterPlotMatrix = function() {
 	    //});
 	    //console.log(dates);
 	    data.forEach(function (d) {
+                //console.log(d);
+                //if (d[p.x.represents[0].uri] == null) return;
 		var i = xScale(new Date(d[p.x.represents[0].uri][0]));
-		console.log(d[p.x.represents[0].uri][0]);
-		console.log(i);
-		d[p.y.represents[0].uri].forEach(function(t) {
+		//console.log(d[p.x.represents[0].uri][0]);
+		//console.log(i);
+                d[p.y.represents[0].uri].forEach(function(t) {
 		    if (!dates[t.uri]) {
 			dates[t.uri] = d3.range(0,9).map(function(d) {
 			    return { x: xScale.invert(d), y: 0, y0: 0};
 			});
-			console.log(dates[t.uri]);
+			//console.log(dates[t.uri]);
 		    }
 		    dates[t.uri][i].y += 1;
 		});
@@ -969,6 +976,7 @@ DataCubeExplorer.prototype.makeScatterPlotMatrix = function() {
 	    console.log(dates);
 	    var categories = d3.keys(dates);
 	    var unstackedData = categories.map(function(d) {return dates[d];});
+            console.log(unstackedData)
 	    var stackedData = d3.layout.stack().offset("wiggle")(unstackedData);
 	    console.log(stackedData);
             var color = d3.interpolateRgb("#aae", "#556");
